@@ -22,12 +22,14 @@ const columns = [
     width: 150,
     renderCell: (params) => <AvatarCard avatar={params.row.avatar} />,
   },
+
   {
     field: "name",
     headerName: "Name",
     headerClassName: "table-header",
     width: 300,
   },
+
   {
     field: "groupChat",
     headerName: "Group",
@@ -53,7 +55,7 @@ const columns = [
     field: "totalMessages",
     headerName: "Total Messages",
     headerClassName: "table-header",
-    width: 200,
+    width: 120,
   },
   {
     field: "creator",
@@ -61,7 +63,7 @@ const columns = [
     headerClassName: "table-header",
     width: 250,
     renderCell: (params) => (
-      <Stack direction="row" alignItems="center" spacing="1rem">
+      <Stack direction="row" alignItems="center" spacing={"1rem"}>
         <Avatar alt={params.row.creator.name} src={params.row.creator.avatar} />
         <span>{params.row.creator.name}</span>
       </Stack>
@@ -72,13 +74,13 @@ const columns = [
 const ChatManagement = () => {
   const { loading, data, error } = useFetchData(
     `${server}/api/v1/admin/chats`,
-    "dashboard-users"
+    "dashboard-chats"
   );
 
   useErrors([
     {
       isError: error,
-      error: "error",
+      error: error,
     },
   ]);
 
@@ -90,7 +92,7 @@ const ChatManagement = () => {
         data.chats.map((i) => ({
           ...i,
           id: i._id,
-          Avatar: i.avatar.map((i) => transformImage(i, 50)),
+          avatar: i.avatar.map((i) => transformImage(i, 50)),
           members: i.members.map((i) => transformImage(i.avatar, 50)),
           creator: {
             name: i.creator.name,
