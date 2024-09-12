@@ -132,12 +132,12 @@ const Login = () => {
             display: "flex",
             flexDirection: "column",
             alignItems: "center",
-            backgroundColor: mostlyBlack,
+            //backgroundColor: mostlyBlack,
           }}
         >
           {isLogin ? (
             <>
-              <Typography variant="h5" color={"whitesmoke"}>
+              <Typography variant="h5" >
                 LogIn
               </Typography>
               <form
@@ -155,11 +155,6 @@ const Login = () => {
                   variant="outlined"
                   value={username.value}
                   onChange={username.changeHandler}
-                  sx={{
-                    "& input": {
-                      color: "whitesmoke",
-                    },
-                  }}
                 />
 
                 <TextField
@@ -171,11 +166,6 @@ const Login = () => {
                   variant="outlined"
                   value={password.value}
                   onChange={password.changeHandler}
-                  sx={{
-                    "& input": {
-                      color: "whitesmoke",
-                    },
-                  }}
                 />
 
                 <Button
@@ -192,7 +182,7 @@ const Login = () => {
                 <Typography
                   textAlign={"center"}
                   m={"1rem"}
-                  color={"whitesmoke"}
+                  //color={"whitesmoke"}
                 >
                   OR
                 </Typography>
@@ -209,7 +199,7 @@ const Login = () => {
             </>
           ) : (
             <>
-              <Typography variant="h5" color={"whitesmoke"}>
+              <Typography variant="h5">
                 Sign Up
               </Typography>
               <form
@@ -272,11 +262,6 @@ const Login = () => {
                   variant="outlined"
                   value={name.value}
                   onChange={name.changeHandler}
-                  sx={{
-                    "& input": {
-                      color: "whitesmoke",
-                    },
-                  }}
                 />
                 <TextField
                   required
@@ -286,11 +271,6 @@ const Login = () => {
                   variant="outlined"
                   value={bio.value}
                   onChange={bio.changeHandler}
-                  sx={{
-                    "& input": {
-                      color: "whitesmoke",
-                    },
-                  }}
                 />
                 <TextField
                   required
@@ -300,11 +280,6 @@ const Login = () => {
                   variant="outlined"
                   value={username.value}
                   onChange={username.changeHandler}
-                  sx={{
-                    "& input": {
-                      color: "whitesmoke",
-                    },
-                  }}
                 />
 
                 {username.error && (
@@ -322,11 +297,6 @@ const Login = () => {
                   variant="outlined"
                   value={password.value}
                   onChange={password.changeHandler}
-                  sx={{
-                    "& input": {
-                      color: "whitesmoke",
-                    },
-                  }}
                 />
 
                 <Button
@@ -342,7 +312,7 @@ const Login = () => {
                 <Typography
                   textAlign={"center"}
                   m={"1rem"}
-                  color={"whitesmoke"}
+                  //color={"whitesmoke"}
                 >
                   OR
                 </Typography>
