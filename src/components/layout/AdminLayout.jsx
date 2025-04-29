@@ -27,7 +27,7 @@ const Link = styled(LinkComponent)`
   border-radius: 2rem;
   padding: 1rem;
   &:hover {
-    color: rgba(255, 255, 255, 1);
+    color: rgba(0,0,0,1);
   }
 `;
 
@@ -137,7 +137,7 @@ const AdminLayout = ({ children }) => {
         lg={3}
         sx={{
           display: { xs: "none", md: "block" },
-          bgcolor: mostlyBlack,
+          //bgcolor: mostlyBlack,
         }}
       >
         <Sidebar />
@@ -148,7 +148,7 @@ const AdminLayout = ({ children }) => {
         md={8}
         lg={9}
         sx={{
-          bgcolor: matteBlack,
+          //bgcolor: matteBlack,
         }}
       >
         {children}
@@ -156,11 +156,7 @@ const AdminLayout = ({ children }) => {
       <Drawer
         open={isMobile}
         onClose={handleClose}
-        sx={{
-          "& .MuiDrawer-paper": {
-            backgroundColor: mostlyBlack,
-          },
-        }}
+        
       >
         <Sidebar w={"50vw"} />
       </Drawer>

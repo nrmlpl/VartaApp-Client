@@ -49,7 +49,7 @@ const Dashboard = () => {
         padding: "2rem",
         margin: "2rem 0",
         //borderRadius: "1rem",
-        bgcolor: matteBlack,
+        //bgcolor: matteBlack,
       }}
     >
       <Stack direction={"row"} alignItems={"center"} spacing={"1rem"}>
@@ -134,7 +134,7 @@ const Dashboard = () => {
                 width: "100%",
                 maxWidth: "41rem",
                 //width: { xs: "100%", sm: "50%" },
-                bgcolor: matteBlack,
+                //bgcolor: matteBlack,
               }}
             >
               <Typography margin={"2rem 0"} variant="h5">
@@ -154,7 +154,7 @@ const Dashboard = () => {
                 position: "relative",
                 width: "100%",
                 maxWidth: "25rem",
-                bgcolor: matteBlack,
+                //bgcolor: matteBlack,
               }}
             >
               <DoughnutChart
@@ -191,7 +191,7 @@ const Widget = ({ title, value, Icon }) => (
   <Paper
     elevation={4}
     sx={{
-      bgcolor: matteBlack,
+      //bgcolor: matteBlack,
       padding: "2rem",
       margin: "2rem 0",
       borderRadius: "1.5rem",
@@ -201,7 +201,7 @@ const Widget = ({ title, value, Icon }) => (
     <Stack alignItems="center" spacing="1rem">
       <Typography
         sx={{
-          color: "rgba(0,0,0,0.7)",
+          //color: "rgba(0,0,0,0.7)",
           borderRadius: "50%",
           border: "5px solid rgba(0,0,0,0.9)",
           width: "5rem",

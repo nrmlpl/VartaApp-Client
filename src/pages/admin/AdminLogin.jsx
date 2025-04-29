@@ -49,10 +49,10 @@ const AdminLogin = () => {
             display: "flex",
             flexDirection: "column",
             alignItems: "center",
-            bgcolor: matteBlack,
+            //bgcolor: matteBlack,
           }}
         >
-          <Typography varient="h5" color={lightGray}>
+          <Typography varient="h5">
             Admin Login
           </Typography>
           <form
@@ -87,6 +87,9 @@ const AdminLogin = () => {
             >
               Login
             </Button>
+            <Typography variant="caption" sx={{ mt: 2, display: 'block', textAlign: 'center' }}>
+              Hint: Use "kaliyug" as the password
+            </Typography>
           </form>
         </Paper>
       </Container>

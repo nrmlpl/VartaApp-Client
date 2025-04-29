@@ -2,10 +2,12 @@ import { Skeleton, createTheme, keyframes, styled } from "@mui/material";
 import { Link as LinkComponent } from "react-router-dom";
 import {
   jetBlack,
+  lightBlue,
   lightGray,
   mahony,
   matteBlack,
   mostlyBlack,
+  offWhite,
 } from "../../constants/color";
 
 const VisuallyHiddenInput = styled("input")({
@@ -47,7 +49,7 @@ const SearchField = styled("input")`
   border: none;
   outline: none;
   border-radius: 2rem;
-  background-color: ${jetBlack};
+  background-color: ${lightGray};
   color: black;
   font-size: 1.1rem;
 `;
@@ -61,7 +63,7 @@ const CurveButton = styled("button")`
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: ${matteBlack};
+  background-color: ${lightGray};
   color: ${"black"};
   &:hover {
     background-color: ${jetBlack};

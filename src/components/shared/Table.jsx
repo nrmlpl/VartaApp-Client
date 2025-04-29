@@ -20,7 +20,7 @@ const Table = ({ rows, columns, heading, rowHeight = 52 }) => {
           overflow: "hidden",
           height: "100%",
           boxShadow: "none",
-          bgcolor: jetBlack,
+          //bgcolor: jetBlack,
         }}
       >
         <Typography
