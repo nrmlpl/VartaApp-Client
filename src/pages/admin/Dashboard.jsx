@@ -299,6 +299,20 @@ const Dashboard = () => {
                   height: "100%",
                   boxShadow: "0 4px 20px rgba(0,0,0,0.1)",
                   border: `1px solid rgba(255,255,255,0.05)`,
+                  "&::before": {
+                    content: '""',
+                    position: "absolute",
+                    top: 0,
+                    left: 0,
+                    right: 0,
+                    bottom: 0,
+                    opacity: 0.05,
+                    zIndex: 0,
+                    background: `linear-gradient(120deg, ${violet}44 0%, transparent 40%),
+                                radial-gradient(circle at 90% 10%, ${violet}22 0%, transparent 50%)`,
+                    borderRadius: "1rem",
+                  },
+                  position: "relative",
                 }}
               >
                 <Typography variant="h6" sx={{ fontWeight: "bold", color: lightGray, mb: 2 }}>
@@ -337,6 +351,20 @@ const Dashboard = () => {
                   height: "100%",
                   boxShadow: "0 4px 20px rgba(0,0,0,0.1)",
                   border: `1px solid rgba(255,255,255,0.05)`,
+                  "&::before": {
+                    content: '""',
+                    position: "absolute",
+                    top: 0,
+                    left: 0,
+                    right: 0,
+                    bottom: 0,
+                    opacity: 0.05,
+                    zIndex: 0,
+                    background: `linear-gradient(120deg, ${violet}44 0%, transparent 40%),
+                                radial-gradient(circle at 10% 90%, ${violet}22 0%, transparent 50%)`,
+                    borderRadius: "1rem",
+                  },
+                  position: "relative",
                 }}
               >
                 <Stack direction="row" justifyContent="space-between" alignItems="center" sx={{ mb: 2 }}>
@@ -389,6 +417,28 @@ const Dashboard = () => {
                   height: "100%",
                   boxShadow: "0 4px 20px rgba(0,0,0,0.1)",
                   border: `1px solid rgba(255,255,255,0.05)`,
+                  "&::before": {
+                    content: '""',
+                    position: "absolute",
+                    width: "140px",
+                    height: "140px",
+                    background: `radial-gradient(circle, ${violet}11 0%, transparent 70%)`,
+                    top: "-20px",
+                    right: "-20px",
+                    borderRadius: "50%",
+                    zIndex: 0,
+                  },
+                  "&::after": {
+                    content: '""',
+                    position: "absolute",
+                    width: "100px",
+                    height: "100px",
+                    background: `radial-gradient(circle, ${violet}11 0%, transparent 70%)`,
+                    bottom: "-20px",
+                    left: "-20px",
+                    borderRadius: "50%",
+                    zIndex: 0,
+                  },
                 }}
               >
                 <Typography variant="h6" sx={{ fontWeight: "bold", color: lightGray, mb: 2 }}>
@@ -458,6 +508,30 @@ const StatCard = ({ title, value, icon, trend, bgGradient }) => (
       boxShadow: "0 4px 20px rgba(0,0,0,0.1)",
       border: `1px solid rgba(255,255,255,0.05)`,
       height: "100%",
+      overflow: "hidden",
+      position: "relative",
+      "&::before": {
+        content: '""',
+        position: "absolute",
+        width: "140px",
+        height: "140px",
+        background: `radial-gradient(circle, ${violet}11 0%, transparent 70%)`,
+        top: "-20px",
+        right: "-20px",
+        borderRadius: "50%",
+        zIndex: 0,
+      },
+      "&::after": {
+        content: '""',
+        position: "absolute",
+        width: "100px",
+        height: "100px",
+        background: `radial-gradient(circle, ${violet}11 0%, transparent 70%)`,
+        bottom: "-20px",
+        left: "-20px",
+        borderRadius: "50%",
+        zIndex: 0,
+      },
     }}
   >
     <Stack spacing={1}>

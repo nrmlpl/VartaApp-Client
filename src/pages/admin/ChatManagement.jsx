@@ -7,7 +7,11 @@ import {
   Paper, 
   Skeleton, 
   Stack, 
-  Typography 
+  Typography,
+  Divider,
+  IconButton,
+  AvatarGroup,
+  Badge
 } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import AdminLayout from "../../components/layout/AdminLayout";
@@ -16,7 +20,13 @@ import Table from "../../components/shared/Table";
 import { server } from "../../constants/config";
 import { useErrors } from "../../hooks/hook";
 import { transformImage } from "../../lib/features";
-import { FilterAlt as FilterAltIcon, Add as AddIcon } from "@mui/icons-material";
+import { 
+  FilterAlt as FilterAltIcon, 
+  Add as AddIcon, 
+  GroupAdd as GroupAddIcon, 
+  Search as SearchIcon,
+  MoreVert as MoreVertIcon
+} from "@mui/icons-material";
 import { lightGray, matteBlack, violet } from "../../constants/color";
 
 const columns = [
@@ -200,21 +210,33 @@ const ChatManagement = () => {
   ]);
 
   const [rows, setRows] = useState([]);
+  const [stats, setStats] = useState({
+    total: 0,
+    direct: 0,
+    group: 0
+  });
 
   useEffect(() => {
     if (data) {
-      setRows(
-        data.chats.map((i) => ({
-          ...i,
-          id: i._id,
-          avatar: i.avatar.map((i) => transformImage(i, 50)),
-          members: i.members.map((i) => transformImage(i.avatar, 50)),
-          creator: {
-            name: i.creator.name,
-            avatar: transformImage(i.creator.avatar, 50),
-          },
-        }))
-      );
+      const formattedRows = data.chats.map((i) => ({
+        ...i,
+        id: i._id,
+        avatar: i.avatar.map((i) => transformImage(i, 50)),
+        members: i.members.map((i) => transformImage(i.avatar, 50)),
+        creator: {
+          name: i.creator.name,
+          avatar: transformImage(i.creator.avatar, 50),
+        },
+      }));
+      
+      setRows(formattedRows);
+      
+      // Calculate stats
+      setStats({
+        total: formattedRows.length,
+        direct: formattedRows.filter(chat => !chat.groupChat).length,
+        group: formattedRows.filter(chat => chat.groupChat).length
+      });
     }
   }, [data]);
 
@@ -233,16 +255,35 @@ const ChatManagement = () => {
               boxShadow: "0 4px 20px rgba(0,0,0,0.1)",
               border: `1px solid rgba(255,255,255,0.05)`,
               mb: 3,
+              position: "relative",
+              overflow: "hidden",
+              "&::before": {
+                content: '""',
+                position: "absolute",
+                width: "200px",
+                height: "200px",
+                background: `radial-gradient(circle, ${violet}11 0%, transparent 70%)`,
+                top: "-100px",
+                right: "20%",
+                borderRadius: "50%",
+                zIndex: 0,
+              },
             }}
           >
             <Stack 
               direction="row" 
               justifyContent="space-between" 
               alignItems="center"
+              sx={{ position: "relative", zIndex: 1 }}
             >
-              <Typography variant="h5" sx={{ fontWeight: "bold", color: violet }}>
-                Chat Management
-              </Typography>
+              <Box>
+                <Typography variant="h5" sx={{ fontWeight: "bold", color: violet, mb: 0.5 }}>
+                  Chat Management
+                </Typography>
+                <Typography variant="body2" sx={{ color: lightGray, opacity: 0.7 }}>
+                  Manage and monitor all conversations in your platform
+                </Typography>
+              </Box>
               <Stack direction="row" spacing={2}>
                 <Button
                   variant="outlined"
@@ -280,6 +321,123 @@ const ChatManagement = () => {
             </Stack>
           </Paper>
           
+          {/* Stats Cards */}
+          <Box sx={{ mb: 3 }}>
+            <Stack
+              direction={{ xs: 'column', sm: 'row' }}
+              spacing={2}
+              justifyContent="space-between"
+            >
+              <Paper
+                elevation={3}
+                sx={{
+                  p: 2,
+                  borderRadius: "1rem",
+                  bgcolor: "background.paper",
+                  boxShadow: "0 4px 20px rgba(0,0,0,0.1)",
+                  border: `1px solid rgba(255,255,255,0.05)`,
+                  flex: 1,
+                  display: 'flex',
+                  flexDirection: 'column',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  position: "relative",
+                  overflow: "hidden",
+                  "&::before": {
+                    content: '""',
+                    position: "absolute",
+                    width: "140px",
+                    height: "140px",
+                    background: `radial-gradient(circle, ${violet}11 0%, transparent 70%)`,
+                    top: "-70px",
+                    right: "-70px",
+                    borderRadius: "50%",
+                    zIndex: 0,
+                  },
+                }}
+              >
+                <Typography variant="h3" sx={{ color: violet, fontWeight: 'bold', mb: 0.5, position: "relative", zIndex: 1 }}>
+                  {stats.total}
+                </Typography>
+                <Typography variant="body2" sx={{ color: lightGray, opacity: 0.7, position: "relative", zIndex: 1 }}>
+                  Total Chats
+                </Typography>
+              </Paper>
+              
+              <Paper
+                elevation={3}
+                sx={{
+                  p: 2,
+                  borderRadius: "1rem",
+                  bgcolor: "background.paper",
+                  boxShadow: "0 4px 20px rgba(0,0,0,0.1)",
+                  border: `1px solid rgba(255,255,255,0.05)`,
+                  flex: 1,
+                  display: 'flex',
+                  flexDirection: 'column',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  position: "relative",
+                  overflow: "hidden",
+                  "&::before": {
+                    content: '""',
+                    position: "absolute",
+                    width: "140px",
+                    height: "140px",
+                    background: `radial-gradient(circle, #2196f322 0%, transparent 70%)`,
+                    top: "-70px",
+                    right: "-70px",
+                    borderRadius: "50%",
+                    zIndex: 0,
+                  },
+                }}
+              >
+                <Typography variant="h3" sx={{ color: '#2196f3', fontWeight: 'bold', mb: 0.5, position: "relative", zIndex: 1 }}>
+                  {stats.direct}
+                </Typography>
+                <Typography variant="body2" sx={{ color: lightGray, opacity: 0.7, position: "relative", zIndex: 1 }}>
+                  Direct Messages
+                </Typography>
+              </Paper>
+              
+              <Paper
+                elevation={3}
+                sx={{
+                  p: 2,
+                  borderRadius: "1rem",
+                  bgcolor: "background.paper",
+                  boxShadow: "0 4px 20px rgba(0,0,0,0.1)",
+                  border: `1px solid rgba(255,255,255,0.05)`,
+                  flex: 1,
+                  display: 'flex',
+                  flexDirection: 'column',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  position: "relative",
+                  overflow: "hidden",
+                  "&::before": {
+                    content: '""',
+                    position: "absolute",
+                    width: "140px",
+                    height: "140px",
+                    background: `radial-gradient(circle, #4caf5022 0%, transparent 70%)`,
+                    top: "-70px",
+                    right: "-70px",
+                    borderRadius: "50%",
+                    zIndex: 0,
+                  },
+                }}
+              >
+                <Typography variant="h3" sx={{ color: '#4caf50', fontWeight: 'bold', mb: 0.5, position: "relative", zIndex: 1 }}>
+                  {stats.group}
+                </Typography>
+                <Typography variant="body2" sx={{ color: lightGray, opacity: 0.7, position: "relative", zIndex: 1 }}>
+                  Group Chats
+                </Typography>
+              </Paper>
+            </Stack>
+          </Box>
+          
           <Paper
             elevation={3}
             sx={{
@@ -294,8 +452,52 @@ const ChatManagement = () => {
                   bgcolor: "rgba(255,255,255,0.05)",
                 },
               },
+              position: "relative",
+              "&::before": {
+                content: '""',
+                position: "absolute",
+                width: "300px",
+                height: "300px",
+                background: `radial-gradient(circle, ${violet}05 0%, transparent 70%)`,
+                bottom: "-150px",
+                right: "-150px",
+                borderRadius: "50%",
+                zIndex: 0,
+              },
             }}
           >
+            {/* Search and actions bar */}
+            <Box sx={{ p: 2, borderBottom: '1px solid rgba(255,255,255,0.05)' }}>
+              <Stack direction="row" justifyContent="space-between" alignItems="center">
+                <Stack direction="row" alignItems="center" spacing={1}>
+                  <IconButton size="small" sx={{ color: lightGray }}>
+                    <SearchIcon />
+                  </IconButton>
+                  <Typography variant="body2" sx={{ color: lightGray }}>
+                    Search chats...
+                  </Typography>
+                </Stack>
+                <Stack direction="row" alignItems="center" spacing={1}>
+                  <Chip 
+                    icon={<GroupAddIcon sx={{ fontSize: '1rem !important', color: `${violet} !important` }} />}
+                    label="New Group" 
+                    size="small"
+                    sx={{ 
+                      bgcolor: "rgba(130,87,229,0.1)",
+                      color: violet,
+                      borderRadius: "4px",
+                      '& .MuiChip-label': {
+                        px: 1
+                      }
+                    }}
+                  />
+                  <IconButton size="small" sx={{ color: lightGray }}>
+                    <MoreVertIcon />
+                  </IconButton>
+                </Stack>
+              </Stack>
+            </Box>
+            
             <Box sx={{ p: "0 0.5rem 1rem 0.5rem" }}>
               <Table 
                 heading={"All Chats"} 

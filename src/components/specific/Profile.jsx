@@ -7,6 +7,7 @@ import {
 } from "@mui/icons-material";
 import moment from "moment";
 import { transformImage } from "../../lib/features";
+import { mahony } from "../../constants/color";
 
 const Profile = ({ user }) => {
   return (
@@ -18,7 +19,7 @@ const Profile = ({ user }) => {
           height: 200,
           objectFit: "contain",
           marginBottom: "1rem",
-          border: "5px solid white",
+          border: `5px solid ${mahony}` ,
         }}
       />
       <ProfileCard heading={"Bio"} text={user.bio} />
@@ -42,7 +43,7 @@ const ProfileCard = ({ text, Icon, heading }) => (
     direction={"row"}
     alignItems={"center"}
     spacing={"1rem"}
-    color={"white"}
+    color={mahony}
     textAlign={"center"}
   >
     {Icon && Icon}

@@ -125,7 +125,7 @@ const AppLayout = () => (WrappedComponent) => {
             md={3}
             sx={{
               display: { xs: "none", sm: "block" },
-              //bgcolor: mostlyBlack,
+              bgcolor: mostlyBlack,
             }}
           >
             {isLoading ? (
@@ -150,7 +150,7 @@ const AppLayout = () => (WrappedComponent) => {
             sx={{
               display: { xs: "none", md: "block" },
               padding: "2rem",
-              //bgcolor: mostlyBlack,
+              bgcolor: mostlyBlack,
             }}
             height={"100%"}
           >

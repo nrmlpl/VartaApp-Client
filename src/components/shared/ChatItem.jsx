@@ -1,6 +1,6 @@
 import { Box, Stack, Typography } from "@mui/material";
 import React, { memo } from "react";
-import { matteBlack } from "../../constants/color";
+import { mahony, matteBlack } from "../../constants/color";
 import { Link } from "../styles/styledComponents";
 import AvatarCard from "./AvatarCard";
 import { motion } from "framer-motion";
@@ -40,7 +40,7 @@ const ChatItem = ({
       >
         <AvatarCard avatar={avatar} />
         <Stack>
-          <Typography>{name}</Typography>
+          <Typography color={mahony}>{name}</Typography>
           {newMessageAlert && (
             <Typography
               sx={{ color: "#0288d1", fontSize: "0.75rem", fontWeight: "bold" }}

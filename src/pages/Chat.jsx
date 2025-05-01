@@ -9,13 +9,27 @@ import {
   AddReaction as AddReactionIcon,
   AttachFile as AttachFileIcon,
   Send as SendIcon,
+  KeyboardArrowDown as KeyboardArrowDownIcon,
 } from "@mui/icons-material";
-import { IconButton, Skeleton, Stack, Popover } from "@mui/material";
+import { 
+  IconButton, 
+  Skeleton, 
+  Stack, 
+  Popover, 
+  Box, 
+  Paper, 
+  Typography, 
+  Fade,
+  Tooltip,
+  Zoom,
+  Badge,
+  Fab
+} from "@mui/material";
 import EmojiPicker from "emoji-picker-react";
 import FileMenu from "../components/dialogs/FileMenu";
 import AppLayout from "../components/layout/AppLayout";
 import MessageComponent from "../components/shared/MessageComponent";
-import { jetBlack, lightGray, mahony } from "../constants/color";
+import { jetBlack, lightGray, mahony, mostlyBlack, violet } from "../constants/color";
 import {
   ALERT,
   CHAT_JOINED,
@@ -42,11 +56,13 @@ const Chat = ({ chatId, user }) => {
 
   const containerRef = useRef(null);
   const bottomRef = useRef(null);
+  const scrollButtonRef = useRef(null);
 
   const [message, setMessage] = useState("");
   const [messages, setMessages] = useState([]);
   const [page, setPage] = useState(1);
   const [fileMenuAnchor, setFileMenuAnchor] = useState(null);
+  const [showScrollButton, setShowScrollButton] = useState(false);
 
   const [IamTyping, setIamTyping] = useState(false);
   const [userTyping, setUserTyping] = useState(false);
@@ -113,6 +129,19 @@ const Chat = ({ chatId, user }) => {
     setEmojiPickerAnchor(null);
   };
 
+  const handleScroll = () => {
+    if (containerRef.current) {
+      const { scrollTop } = containerRef.current;
+      setShowScrollButton(scrollTop < -100);
+    }
+  };
+
+  const scrollToBottom = () => {
+    if (bottomRef.current) {
+      bottomRef.current.scrollIntoView({ behavior: "smooth" });
+    }
+  };
+
   useEffect(() => {
     socket.emit(CHAT_JOINED, { userId: user._id, members });
     dispatch(removeNewMessagesAlert(chatId));
@@ -134,6 +163,13 @@ const Chat = ({ chatId, user }) => {
   useEffect(() => {
     if (chatDetails.isError) return navigate("/");
   }, [chatDetails.isError]);
+
+  useEffect(() => {
+    containerRef.current?.addEventListener("scroll", handleScroll);
+    return () => {
+      containerRef.current?.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
 
   const newMessagesListener = useCallback(
     (data) => {
@@ -195,62 +231,120 @@ const Chat = ({ chatId, user }) => {
     <Skeleton />
   ) : (
     <Fragment>
-      <Stack
-        ref={containerRef}
-        boxSizing={"border-box"}
-        padding={"1rem"}
-        spacing={"1rem"}
-        bgcolor={jetBlack}
-        height={"93%"}
+      <Stack 
         sx={{
-          overflowX: "hidden",
-          overflowY: "auto",
-
-          "&::-webkit-scrollbar": {
-            width: "4px",
-          },
-          "&::-webkit-scrollbar-thumb": {
-            backgroundColor: "#888",
-            borderRadius: "5px",
-          },
-          "&::-webkit-scrollbar-thumb:hover": {
-            backgroundColor: "#555",
-          },
+          height: '93%',
+          position: 'relative',
+          bgcolor: jetBlack,
         }}
       >
-        {allMessages.map((i) => (
-          <MessageComponent key={i._id} message={i} user={user} />
-        ))}
-        {userTyping && <TypingLoader />}
-
-        <div ref={bottomRef} />
+        <Box
+          ref={containerRef}
+          boxSizing={"border-box"}
+          padding={"1rem"}
+          sx={{
+            overflowX: "hidden",
+            overflowY: "auto",
+            height: "100%",
+            "&::-webkit-scrollbar": {
+              width: "4px",
+            },
+            "&::-webkit-scrollbar-thumb": {
+              backgroundColor: "#888",
+              borderRadius: "5px",
+            },
+            "&::-webkit-scrollbar-thumb:hover": {
+              backgroundColor: "#555",
+            },
+          }}
+        >
+          <Stack spacing={"1rem"} pb={1}>
+            {allMessages.map((i) => (
+              <Fade in={true} key={i._id} timeout={300}>
+                <Box>
+                  <MessageComponent message={i} user={user} />
+                </Box>
+              </Fade>
+            ))}
+            {userTyping && <TypingLoader />}
+          </Stack>
+          <div ref={bottomRef} />
+        </Box>
+        
+        {showScrollButton && (
+          <Zoom in={showScrollButton}>
+            <Fab 
+              size="small" 
+              color="primary" 
+              aria-label="scroll down"
+              sx={{ 
+                position: 'absolute', 
+                bottom: 80, 
+                right: 20,
+                bgcolor: mahony, 
+                '&:hover': { 
+                  bgcolor: `${mahony}e0` 
+                },
+                zIndex: 2
+              }}
+              onClick={scrollToBottom}
+            >
+              <KeyboardArrowDownIcon />
+            </Fab>
+          </Zoom>
+        )}
       </Stack>
 
-      <form
-        style={{
-          height: "7%",
-        }}
+      <Paper
+        elevation={3}
+        component="form"
         onSubmit={submitHandler}
+        sx={{
+          height: "7%",
+          bgcolor: "rgba(35, 32, 31, 0.7)",
+          borderRadius: 0,
+          //backdropFilter: "blur(10px)",
+          boxShadow: "0 -4px 20px rgba(0,0,0,0.1)",
+          display: "flex",
+          alignItems: "center",
+          overflow: "hidden",
+          position: "relative",
+          "&::before": {
+            content: '""',
+            position: "absolute",
+            top: 0,
+            left: 0,
+            right: 0,
+            height: "1px",
+            background: "linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent)",
+          }
+        }}
       >
         <Stack
           direction={"row"}
+          width="100%"
           height={"100%"}
           alignItems={"center"}
-          position={"relative"}
-          bgcolor={jetBlack}
-          padding={"0.2rem"}
+          spacing={1}
+          padding={"0 0.5rem"}
         >
-          <IconButton
-            sx={{
-              color: lightGray,
-              bgcolor: mahony,
-              marginLeft: "0.5rem",
-              padding: "0.35rem",
-            }}
-            onClick={handleEmojiClick}
-          >
-            <AddReactionIcon />
-          </IconButton>
+          <Tooltip title="Add emoji" arrow placement="top">
+            <IconButton
+              size="small"
+              sx={{
+                color: mahony,
+                bgcolor: `${lightGray}33`,
+                transition: "all 0.2s",
+                "&:hover": {
+                  bgcolor: lightGray,
+                }
+              }}
+              onClick={handleEmojiClick}
+            >
+              <AddReactionIcon />
+            </IconButton>
+          </Tooltip>
+          
           <Popover
             open={Boolean(emojiPickerAnchor)}
             anchorEl={emojiPickerAnchor}
@@ -266,37 +360,64 @@ const Chat = ({ chatId, user }) => {
           >
             <EmojiPicker onEmojiClick={handleEmojiSelect} />
           </Popover>
-          <IconButton
-            sx={{
-              color: lightGray,
-              bgcolor: mahony,
-              marginLeft: "0.5rem",
-              marginRight: "0.5rem",
-              padding: "0.35rem",
-            }}
-            onClick={handleFileOpen}
-          >
-            <AttachFileIcon />
-          </IconButton>
+          
+          <Tooltip title="Attach file" arrow placement="top">
+            <IconButton
+              size="small"
+              sx={{
+                color: mahony,
+                bgcolor: `${lightGray}33`,
+                transition: "all 0.2s",
+                "&:hover": {
+                  bgcolor: lightGray,
+                }
+              }}
+              onClick={handleFileOpen}
+            >
+              <AttachFileIcon />
+            </IconButton>
+          </Tooltip>
+          
           <InputBox
             placeholder="Type message here..."
             value={message}
             onChange={messageOnChange}
-          />
-          <IconButton
             sx={{
-              color: lightGray,
-              bgcolor: mahony,
-              marginLeft: "0.5rem",
-              marginRight: "0.5rem",
-              padding: "0.45rem",
+              bgcolor: `${lightGray}33`,
+              borderRadius: "30px",
+              color: mostlyBlack,
+              border: `1px solid ${mahony}`,
+              px: 2,
+              transition: "all 0.2s",
+              "&::placeholder": {
+                color: jetBlack,
+              },
+              "&:focus": {
+                borderColor: `${mahony}50`,
+                bgcolor: `${lightGray}50`,
+              }
             }}
-            type="submit"
-          >
-            <SendIcon />
-          </IconButton>
+          />
+          
+          <Tooltip title="Send message" arrow placement="top">
+            <IconButton
+              size="small"
+              type="submit"
+              disabled={!message.trim()}
+              sx={{
+                color: mahony,
+                bgcolor: `${lightGray}33`,
+                transition: "all 0.2s",
+                "&:hover": {
+                  bgcolor: lightGray,
+                }
+              }}
+            >
+              <SendIcon />
+            </IconButton>
+          </Tooltip>
         </Stack>
-      </form>
+      </Paper>
       <FileMenu anchorE1={fileMenuAnchor} chatId={chatId} />
     </Fragment>
   );
