@@ -20,6 +20,8 @@ import { server } from "../constants/config";
 import { userExists } from "../redux/reducers/auth";
 import { usernameValidator } from "../utils/validators";
 
+import dashboardBg from "../assets/images/dashboardBG.jpg";
+
 const Login = () => {
   const [isLogin, setIsLogin] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
@@ -114,7 +116,7 @@ const Login = () => {
   };
 
   return (
-    <div style={{ background: mahony }}>
+    <div style={{ background: `url(${dashboardBg}) no-repeat center / cover`, }}>
       <Container
         component={"main"}
         maxWidth="xs"

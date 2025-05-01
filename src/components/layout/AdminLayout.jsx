@@ -6,6 +6,8 @@ import {
   ManageAccounts as ManageAccountsIcon,
   Menu as MenuIcon,
   Message as MessageIcon,
+  Settings as SettingsIcon,
+  HelpOutline as HelpOutlineIcon,
 } from "@mui/icons-material";
 import {
   Box,
@@ -14,20 +16,31 @@ import {
   IconButton,
   Stack,
   Typography,
+  Avatar,
+  Tooltip,
+  Badge,
+  Divider,
   styled,
 } from "@mui/material";
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link as LinkComponent, Navigate, useLocation } from "react-router-dom";
-import { matteBlack, mostlyBlack, violet } from "../../constants/color";
+import { matteBlack, mostlyBlack, violet, lightGray } from "../../constants/color";
 import { adminLogout } from "../../redux/thunks/admin";
 
 const Link = styled(LinkComponent)`
   text-decoration: none;
-  border-radius: 2rem;
-  padding: 1rem;
+  border-radius: 0.75rem;
+  padding: 0.75rem 1.25rem;
+  width: 100%;
+  transition: all 0.2s ease;
+  margin-bottom: 0.5rem;
+  display: flex;
+  align-items: center;
+  color: ${lightGray};
   &:hover {
-    color: rgba(0,0,0,1);
+    background-color: rgba(130, 87, 229, 0.1);
+    color: ${violet};
   }
 `;
 
@@ -64,44 +77,175 @@ const Sidebar = ({ w = "100%" }) => {
   };
 
   return (
-    <Stack width={w} direction={"column"} p={"3rem"} spacing={"3rem"}>
-      <Typography
-        variant="h5"
-        color={violet}
-        sx={{ fontWeight: "bold", fontFamily: "Arial, sans-serif" }}
-      >
-        VartApp
-      </Typography>
-      <Stack spacing={"1rem"}>
-        {adminTabs.map((tab) => (
-          <Link
-            key={tab.path}
-            to={tab.path}
-            style={{
-              textDecoration: "none",
+    <Stack 
+      width={w} 
+      direction="column" 
+      sx={{ 
+        height: "100%",
+        p: 3,
+        position: "relative",
+      }}
+    >
+      <Stack spacing={4}>
+        {/* Logo */}
+        <Stack 
+          direction="row" 
+          alignItems="center" 
+          spacing={1}
+          sx={{ mb: 2 }}
+        >
+          <Avatar
+            sx={{ 
+              width: 42, 
+              height: 42, 
+              bgcolor: violet,
+              fontWeight: "bold",
+              fontSize: "1.2rem",
             }}
-            sx={
-              location.pathname === tab.path && {
-                bgcolor: violet,
-                color: "black",
-                p: "0.75rem",
-                width: "30vh",
-              }
-            }
           >
-            <Stack direction={"row"} alignItems={"center"} spacing={"1rem"}>
-              {tab.icon}
-              <Typography fontWeight={"bold"}>{tab.name}</Typography>
-            </Stack>
-          </Link>
-        ))}
-        <Link onClick={logoutHandler}>
-          <Stack direction={"row"} alignItems={"center"} spacing={"1rem"}>
-            <ExitToAppIcon />
-            <Typography fontWeight={"bold"}>Logout</Typography>
+            V
+          </Avatar>
+          <Typography
+            variant="h5"
+            color={violet}
+            sx={{ fontWeight: "bold", fontFamily: "Arial, sans-serif" }}
+          >
+            VartApp
+          </Typography>
+        </Stack>
+
+        {/* Admin Profile */}
+        <Box
+          sx={{
+            p: 2,
+            borderRadius: "1rem",
+            bgcolor: "rgba(130, 87, 229, 0.1)",
+            mb: 2,
+            border: "1px solid rgba(130, 87, 229, 0.2)",
+          }}
+        >
+          <Stack direction="row" spacing={2} alignItems="center">
+            <Avatar
+              src="https://i.pravatar.cc/150?img=12"
+              sx={{ width: 48, height: 48 }}
+            />
+            <Box>
+              <Typography color={lightGray} fontWeight="bold">
+                Admin User
+              </Typography>
+              <Typography variant="body2" color={lightGray} sx={{ opacity: 0.7 }}>
+                System Administrator
+              </Typography>
+            </Box>
           </Stack>
-        </Link>
+        </Box>
+
+        {/* Navigation */}
+        <Box>
+          <Typography 
+            variant="body2" 
+            sx={{ 
+              color: lightGray, 
+              opacity: 0.6, 
+              fontWeight: "medium", 
+              pl: 1.5, 
+              mb: 1 
+            }}
+          >
+            MAIN NAVIGATION
+          </Typography>
+          <Stack>
+            {adminTabs.map((tab) => (
+              <Link
+                key={tab.path}
+                to={tab.path}
+                sx={
+                  location.pathname === tab.path
+                    ? {
+                        bgcolor: violet,
+                        color: "white",
+                        boxShadow: "0 4px 10px rgba(130, 87, 229, 0.3)",
+                        "&:hover": {
+                          bgcolor: violet,
+                          color: "white",
+                        },
+                      }
+                    : {}
+                }
+              >
+                <Stack direction="row" alignItems="center" spacing={2}>
+                  {tab.path === "/admin/messages" ? (
+                    <Badge color="error" badgeContent={4} sx={{ "& .MuiBadge-badge": { top: 5, right: 5 } }}>
+                      {tab.icon}
+                    </Badge>
+                  ) : (
+                    tab.icon
+                  )}
+                  <Typography fontWeight="medium">{tab.name}</Typography>
+                </Stack>
+              </Link>
+            ))}
+          </Stack>
+        </Box>
+
+        <Divider sx={{ borderColor: "rgba(255, 255, 255, 0.1)" }} />
+
+        {/* Settings Section */}
+        <Box>
+          <Typography 
+            variant="body2" 
+            sx={{ 
+              color: lightGray, 
+              opacity: 0.6, 
+              fontWeight: "medium", 
+              pl: 1.5, 
+              mb: 1 
+            }}
+          >
+            SETTINGS
+          </Typography>
+          <Stack>
+            <Link to="#settings">
+              <Stack direction="row" alignItems="center" spacing={2}>
+                <SettingsIcon />
+                <Typography fontWeight="medium">Settings</Typography>
+              </Stack>
+            </Link>
+            <Link to="#help">
+              <Stack direction="row" alignItems="center" spacing={2}>
+                <HelpOutlineIcon />
+                <Typography fontWeight="medium">Help & Support</Typography>
+              </Stack>
+            </Link>
+            <Link onClick={logoutHandler}>
+              <Stack direction="row" alignItems="center" spacing={2}>
+                <ExitToAppIcon />
+                <Typography fontWeight="medium">Logout</Typography>
+              </Stack>
+            </Link>
+          </Stack>
+        </Box>
       </Stack>
+
+      {/* Footer */}
+      <Box sx={{ position: "absolute", bottom: "1.5rem", left: 0, width: "100%", px: 3 }}>
+        <Box
+          sx={{
+            p: 2,
+            borderRadius: "1rem",
+            bgcolor: "rgba(130, 87, 229, 0.05)",
+            border: "1px solid rgba(130, 87, 229, 0.1)",
+          }}
+        >
+          <Typography 
+            variant="body2" 
+            color={lightGray} 
+            sx={{ opacity: 0.7, textAlign: "center" }}
+          >
+            VartApp Admin v1.2.0
+          </Typography>
+        </Box>
+      </Box>
     </Stack>
   );
 };
@@ -124,31 +268,43 @@ const AdminLayout = ({ children }) => {
           position: "fixed",
           right: "1rem",
           top: "1rem",
+          zIndex: 1100,
         }}
       >
-        <IconButton onClick={handleMobile}>
+        <IconButton 
+          onClick={handleMobile}
+          sx={{ 
+            bgcolor: mostlyBlack,
+            color: lightGray,
+            boxShadow: "0 4px 8px rgba(0,0,0,0.2)",
+            "&:hover": {
+              bgcolor: "rgba(0,0,0,0.7)",
+            }
+          }}
+        >
           {isMobile ? <CloseIcon /> : <MenuIcon />}
         </IconButton>
       </Box>
 
       <Grid
         item
-        md={4}
-        lg={3}
+        md={3}
+        lg={2.5}
         sx={{
           display: { xs: "none", md: "block" },
-          //bgcolor: mostlyBlack,
+          bgcolor: mostlyBlack,
         }}
       >
         <Sidebar />
       </Grid>
       <Grid
         item
-        xs={32}
-        md={8}
-        lg={9}
+        xs={12}
+        md={9}
+        lg={9.5}
         sx={{
-          //bgcolor: matteBlack,
+          bgcolor: matteBlack,
+          minHeight: "100vh",
         }}
       >
         {children}
@@ -156,9 +312,15 @@ const AdminLayout = ({ children }) => {
       <Drawer
         open={isMobile}
         onClose={handleClose}
-        
+        sx={{
+          "& .MuiDrawer-paper": {
+            width: "280px",
+            bgcolor: mostlyBlack,
+            boxShadow: "0 0 20px rgba(0,0,0,0.5)",
+          }
+        }}
       >
-        <Sidebar w={"50vw"} />
+        <Sidebar w={"100%"} />
       </Drawer>
     </Grid>
   );
