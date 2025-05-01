@@ -219,14 +219,14 @@ const ChatManagement = () => {
   useEffect(() => {
     if (data) {
       const formattedRows = data.chats.map((i) => ({
-        ...i,
-        id: i._id,
-        avatar: i.avatar.map((i) => transformImage(i, 50)),
-        members: i.members.map((i) => transformImage(i.avatar, 50)),
-        creator: {
-          name: i.creator.name,
-          avatar: transformImage(i.creator.avatar, 50),
-        },
+          ...i,
+          id: i._id,
+          avatar: i.avatar.map((i) => transformImage(i, 50)),
+          members: i.members.map((i) => transformImage(i.avatar, 50)),
+          creator: {
+            name: i.creator.name,
+            avatar: transformImage(i.creator.avatar, 50),
+          },
       }));
       
       setRows(formattedRows);

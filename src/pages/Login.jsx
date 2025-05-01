@@ -14,11 +14,18 @@ import {
   Divider,
   Fade,
 } from "@mui/material";
-import { LockOutlined, PersonOutline, Visibility, VisibilityOff } from "@mui/icons-material";
+import {
+  LockOutlined,
+  PersonOutline,
+  Visibility,
+  VisibilityOff,
+  AdminPanelSettings,
+} from "@mui/icons-material";
 import axios from "axios";
 import React, { useState } from "react";
 import toast from "react-hot-toast";
 import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import { VisuallyHiddenInput } from "../components/styles/styledComponents";
 import { mahony, mostlyBlack, jetBlack, violet } from "../constants/color";
 import { server } from "../constants/config";
@@ -31,6 +38,7 @@ const Login = () => {
   const [isLogin, setIsLogin] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
+  const navigate = useNavigate();
 
   const toggleLogin = () => setIsLogin((prev) => !prev);
   const handleClickShowPassword = () => setShowPassword(!showPassword);
@@ -122,22 +130,44 @@ const Login = () => {
     }
   };
 
+  const goToAdminPanel = () => {
+    navigate("/admin");
+  };
+
   return (
-    <Box sx={{ 
-      background: `url(${dashboardBg}) no-repeat center / cover`, 
-      minHeight: "100vh",
-      position: "relative",
-      "&::before": {
-        content: '""',
-        position: "absolute",
-        top: 0,
-        left: 0,
-        width: "100%",
-        height: "100%",
-        backgroundColor: "rgba(0,0,0,0.6)",
-        backdropFilter: "blur(4px)",
-      }
-    }}>
+    <Box
+      sx={{
+        background: `url(${dashboardBg}) no-repeat center / cover`,
+        minHeight: "100vh",
+        position: "relative",
+        "&::before": {
+          content: '""',
+          position: "absolute",
+          top: 0,
+          left: 0,
+          width: "100%",
+          height: "100%",
+          backgroundColor: "rgba(0,0,0,0.6)",
+          backdropFilter: "blur(4px)",
+        },
+      }}
+    >
+      <Button
+        startIcon={<AdminPanelSettings />}
+        onClick={goToAdminPanel}
+        sx={{
+          position: "absolute",
+          top: 16,
+          right: 16,
+          bgcolor: `${mahony}60`,
+          color: "white",
+          "&:hover": {
+            bgcolor: `${mahony}d0`,
+          },
+        }}
+      >
+        Admin Dashboard
+      </Button>
       <Container
         component={"main"}
         maxWidth="xs"
@@ -173,11 +203,23 @@ const Login = () => {
                 backgroundColor: "#444",
                 borderRadius: "5px",
               },
+              "&::-webkit-scrollbar": {
+                display: "none",
+              },
+              scrollbarWidth: "none",
+              msOverflowStyle: "none",
             }}
           >
             {isLogin ? (
               <>
-                <Box sx={{ mb: 3, display: "flex", flexDirection: "column", alignItems: "center" }}>
+                <Box
+                  sx={{
+                    mb: 3,
+                    display: "flex",
+                    flexDirection: "column",
+                    alignItems: "center",
+                  }}
+                >
                   <Avatar
                     sx={{
                       mb: 2,
@@ -189,7 +231,12 @@ const Login = () => {
                   >
                     <LockOutlined />
                   </Avatar>
-                  <Typography variant="h4" color={mahony} fontWeight="bold" gutterBottom>
+                  <Typography
+                    variant="h4"
+                    color={mahony}
+                    fontWeight="bold"
+                    gutterBottom
+                  >
                     VartApp
                   </Typography>
                   <Typography variant="h6" color="white" sx={{ opacity: 0.9 }}>
@@ -213,7 +260,9 @@ const Login = () => {
                     InputProps={{
                       startAdornment: (
                         <InputAdornment position="start">
-                          <PersonOutline sx={{ color: 'rgba(255,255,255,0.7)' }} />
+                          <PersonOutline
+                            sx={{ color: "rgba(255,255,255,0.7)" }}
+                          />
                         </InputAdornment>
                       ),
                     }}
@@ -225,12 +274,12 @@ const Login = () => {
                         borderRadius: 2,
                         "& fieldset": { borderColor: "rgba(255,255,255,0.2)" },
                         "&:hover fieldset": { borderColor: mahony },
-                        "&.Mui-focused fieldset": { borderColor: mahony }
+                        "&.Mui-focused fieldset": { borderColor: mahony },
                       },
                       "& .MuiFormLabel-root": {
                         color: "rgba(255,255,255,0.7)",
-                        "&.Mui-focused": { color: mahony }
-                      }
+                        "&.Mui-focused": { color: mahony },
+                      },
                     }}
                   />
 
@@ -246,7 +295,9 @@ const Login = () => {
                     InputProps={{
                       startAdornment: (
                         <InputAdornment position="start">
-                          <LockOutlined sx={{ color: 'rgba(255,255,255,0.7)' }} />
+                          <LockOutlined
+                            sx={{ color: "rgba(255,255,255,0.7)" }}
+                          />
                         </InputAdornment>
                       ),
                       endAdornment: (
@@ -254,7 +305,7 @@ const Login = () => {
                           <IconButton
                             onClick={handleClickShowPassword}
                             edge="end"
-                            sx={{ color: 'rgba(255,255,255,0.7)' }}
+                            sx={{ color: "rgba(255,255,255,0.7)" }}
                           >
                             {showPassword ? <VisibilityOff /> : <Visibility />}
                           </IconButton>
@@ -269,12 +320,12 @@ const Login = () => {
                         borderRadius: 2,
                         "& fieldset": { borderColor: "rgba(255,255,255,0.2)" },
                         "&:hover fieldset": { borderColor: mahony },
-                        "&.Mui-focused fieldset": { borderColor: mahony }
+                        "&.Mui-focused fieldset": { borderColor: mahony },
                       },
                       "& .MuiFormLabel-root": {
                         color: "rgba(255,255,255,0.7)",
-                        "&.Mui-focused": { color: mahony }
-                      }
+                        "&.Mui-focused": { color: mahony },
+                      },
                     }}
                   />
 
@@ -305,37 +356,62 @@ const Login = () => {
                     Login
                   </Button>
 
-                  <Divider sx={{ my: 2, color: 'rgba(255,255,255,0.5)', "&::before, &::after": { borderColor: "rgba(229, 130, 87, 0.3)" } }}>
-                    <Typography variant="body2" color="white" sx={{ opacity: 0.7, px: 1 }}>
+                  <Divider
+                    sx={{
+                      my: 2,
+                      color: "rgba(255,255,255,0.5)",
+                      "&::before, &::after": {
+                        borderColor: "rgba(229, 130, 87, 0.3)",
+                      },
+                    }}
+                  >
+                    <Typography
+                      variant="body2"
+                      color="white"
+                      sx={{ opacity: 0.7, px: 1 }}
+                    >
                       OR
                     </Typography>
                   </Divider>
 
-                  <Button
-                    disabled={isLoading}
-                    fullWidth
-                    variant="outlined"
-                    onClick={toggleLogin}
-                    sx={{
-                      mt: 1,
-                      borderColor: "rgba(255,255,255,0.3)",
-                      color: "white",
-                      textTransform: "none",
-                      borderRadius: 2,
-                      "&:hover": {
-                        borderColor: "white",
-                        backgroundColor: "rgba(229, 130, 87, 0.3)",
-                      }
-                    }}
-                  >
-                    Create New Account
-                  </Button>
+                  <Stack spacing={2}>
+                    <Button
+                      disabled={isLoading}
+                      fullWidth
+                      variant="outlined"
+                      onClick={toggleLogin}
+                      sx={{
+                        borderColor: "rgba(255,255,255,0.3)",
+                        color: "white",
+                        textTransform: "none",
+                        borderRadius: 2,
+                        "&:hover": {
+                          borderColor: "white",
+                          backgroundColor: "rgba(229, 130, 87, 0.3)",
+                        },
+                      }}
+                    >
+                      Create New Account
+                    </Button>
+                  </Stack>
                 </form>
               </>
             ) : (
               <>
-                <Box sx={{ mb: 2, display: "flex", flexDirection: "column", alignItems: "center" }}>
-                  <Typography variant="h4" color={mahony} fontWeight="bold" gutterBottom>
+                <Box
+                  sx={{
+                    mb: 2,
+                    display: "flex",
+                    flexDirection: "column",
+                    alignItems: "center",
+                  }}
+                >
+                  <Typography
+                    variant="h4"
+                    color={mahony}
+                    fontWeight="bold"
+                    gutterBottom
+                  >
                     VartApp
                   </Typography>
                   <Typography variant="h6" color="white" sx={{ opacity: 0.9 }}>
@@ -348,13 +424,20 @@ const Login = () => {
                   }}
                   onSubmit={handleSignUp}
                 >
-                  <Stack position={"relative"} width={"6rem"} margin={"auto"} mb={2}>
+                  <Stack
+                    position={"relative"}
+                    width={"6rem"}
+                    margin={"auto"}
+                    mb={2}
+                  >
                     <Avatar
                       sx={{
                         width: "6rem",
                         height: "6rem",
                         objectFit: "contain",
-                        border: avatar.preview ? "3px solid rgba(130, 87, 229, 0.5)" : "3px dashed rgba(229, 130, 87, 0.3)",
+                        border: avatar.preview
+                          ? "3px solid rgba(130, 87, 229, 0.5)"
+                          : "3px dashed rgba(229, 130, 87, 0.3)",
                         boxShadow: "0 4px 20px rgba(0,0,0,0.2)",
                       }}
                       src={avatar.preview}
@@ -412,12 +495,12 @@ const Login = () => {
                         borderRadius: 2,
                         "& fieldset": { borderColor: "rgba(255,255,255,0.2)" },
                         "&:hover fieldset": { borderColor: mahony },
-                        "&.Mui-focused fieldset": { borderColor: mahony }
+                        "&.Mui-focused fieldset": { borderColor: mahony },
                       },
                       "& .MuiFormLabel-root": {
                         color: "rgba(255,255,255,0.7)",
-                        "&.Mui-focused": { color: mahony }
-                      }
+                        "&.Mui-focused": { color: mahony },
+                      },
                     }}
                   />
                   <TextField
@@ -436,13 +519,12 @@ const Login = () => {
                         borderRadius: 2,
                         "& fieldset": { borderColor: "rgba(255,255,255,0.2)" },
                         "&:hover fieldset": { borderColor: mahony },
-                        "&.Mui-focused fieldset": { borderColor: mahony }
+                        "&.Mui-focused fieldset": { borderColor: mahony },
                       },
                       "& .MuiFormLabel-root": {
                         color: "rgba(255,255,255,0.7)",
-                        "&.Mui-focused": { color: mahony }
-                      }
-
+                        "&.Mui-focused": { color: mahony },
+                      },
                     }}
                   />
                   <TextField
@@ -461,17 +543,21 @@ const Login = () => {
                         borderRadius: 2,
                         "& fieldset": { borderColor: "rgba(255,255,255,0.2)" },
                         "&:hover fieldset": { borderColor: mahony },
-                        "&.Mui-focused fieldset": { borderColor: mahony }
+                        "&.Mui-focused fieldset": { borderColor: mahony },
                       },
                       "& .MuiFormLabel-root": {
                         color: "rgba(255,255,255,0.7)",
-                        "&.Mui-focused": { color: mahony }
-                      }
+                        "&.Mui-focused": { color: mahony },
+                      },
                     }}
                   />
 
                   {username.error && (
-                    <Typography color="error" variant="caption" sx={{ mb: 0.5, display: "block" }}>
+                    <Typography
+                      color="error"
+                      variant="caption"
+                      sx={{ mb: 0.5, display: "block" }}
+                    >
                       {username.error}
                     </Typography>
                   )}
@@ -491,7 +577,7 @@ const Login = () => {
                           <IconButton
                             onClick={handleClickShowPassword}
                             edge="end"
-                            sx={{ color: 'rgba(255,255,255,0.7)' }}
+                            sx={{ color: "rgba(255,255,255,0.7)" }}
                           >
                             {showPassword ? <VisibilityOff /> : <Visibility />}
                           </IconButton>
@@ -506,12 +592,12 @@ const Login = () => {
                         borderRadius: 2,
                         "& fieldset": { borderColor: "rgba(255,255,255,0.2)" },
                         "&:hover fieldset": { borderColor: mahony },
-                        "&.Mui-focused fieldset": { borderColor: mahony }
+                        "&.Mui-focused fieldset": { borderColor: mahony },
                       },
                       "& .MuiFormLabel-root": {
                         color: "rgba(255,255,255,0.7)",
-                        "&.Mui-focused": { color: mahony }
-                      }
+                        "&.Mui-focused": { color: mahony },
+                      },
                     }}
                   />
 
@@ -541,30 +627,44 @@ const Login = () => {
                   >
                     Sign Up
                   </Button>
-                  <Divider sx={{ my: 1.5, color: 'rgba(255,255,255,0.5)', "&::before, &::after": { borderColor: "rgba(229, 130, 87, 0.1)" } }}>
-                    <Typography variant="body2" color="white" sx={{ opacity: 0.7, px: 1 }}>
+                  <Divider
+                    sx={{
+                      my: 1.5,
+                      color: "rgba(255,255,255,0.5)",
+                      "&::before, &::after": {
+                        borderColor: "rgba(229, 130, 87, 0.1)",
+                      },
+                    }}
+                  >
+                    <Typography
+                      variant="body2"
+                      color="white"
+                      sx={{ opacity: 0.7, px: 1 }}
+                    >
                       OR
                     </Typography>
                   </Divider>
-                  <Button
-                    disabled={isLoading}
-                    fullWidth
-                    variant="outlined"
-                    onClick={toggleLogin}
-                    sx={{
-                      mt: 0.5,
-                      borderColor: "rgba(255,255,255,0.3)",
-                      color: "white",
-                      textTransform: "none",
-                      borderRadius: 2,
-                      "&:hover": {
-                        borderColor: "white",
-                        backgroundColor: "rgba(255,255,255,0.05)",
-                      }
-                    }}
-                  >
-                    Already have an account? Login
-                  </Button>
+                  <Stack spacing={2}>
+                    <Button
+                      disabled={isLoading}
+                      fullWidth
+                      variant="outlined"
+                      onClick={toggleLogin}
+                      sx={{
+                        mt: 0.5,
+                        borderColor: "rgba(255,255,255,0.3)",
+                        color: "white",
+                        textTransform: "none",
+                        borderRadius: 2,
+                        "&:hover": {
+                          borderColor: "white",
+                          backgroundColor: "rgba(255,255,255,0.05)",
+                        },
+                      }}
+                    >
+                      Already have an account? Login
+                    </Button>
+                  </Stack>
                 </form>
               </>
             )}
