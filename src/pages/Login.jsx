@@ -32,7 +32,7 @@ import { server } from "../constants/config";
 import { userExists } from "../redux/reducers/auth";
 import { usernameValidator } from "../utils/validators";
 
-import dashboardBg from "../assets/images/dashboardBG.jpg";
+import appBg from "../assets/images/appBG.jpg";
 
 const Login = () => {
   const [isLogin, setIsLogin] = useState(true);
@@ -137,7 +137,7 @@ const Login = () => {
   return (
     <Box
       sx={{
-        background: `url(${dashboardBg}) no-repeat center / cover`,
+        background: `url(${appBg}) no-repeat center / cover`,
         minHeight: "100vh",
         position: "relative",
         "&::before": {
